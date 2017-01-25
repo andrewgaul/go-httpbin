@@ -60,8 +60,8 @@ func GetMux() *mux.Router {
 	r.HandleFunc(`/cache/{n:[\d]+}`, SetCacheHandler).Methods("GET")
 	r.HandleFunc(`/gzip`, GZIPHandler).Methods("GET")
 	r.HandleFunc(`/deflate`, DeflateHandler).Methods("GET")
-	r.HandleFunc(`/html`, HTMLHandler).Methods("GET")
-	r.HandleFunc(`/xml`, XMLHandler).Methods("GET")
+	r.HandleFunc(`/html`, HTMLHandler).Methods("GET", "HEAD")
+	r.HandleFunc(`/xml`, XMLHandler).Methods("GET", "HEAD")
 	r.HandleFunc(`/robots.txt`, RobotsTXTHandler).Methods("GET")
 	r.HandleFunc(`/deny`, DenyHandler).Methods("GET")
 	r.HandleFunc(`/basic-auth/{u}/{p}`, BasicAuthHandler).Methods("GET")
@@ -440,12 +440,14 @@ func basicAuthHandler(w http.ResponseWriter, r *http.Request, status int) {
 
 // HTMLHandler returns some HTML response.
 func HTMLHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Length", strconv.Itoa(len(htmlData)))
 	w.Header().Set("Content-Type", "text/html")
 	fmt.Fprint(w, htmlData)
 }
 
 // XMLHandler returns some XML response.
 func XMLHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Length", strconv.Itoa(len(xmlData)))
 	w.Header().Set("Content-Type", "text/xml")
 	fmt.Fprint(w, xmlData)
 }
