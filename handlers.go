@@ -441,14 +441,14 @@ func basicAuthHandler(w http.ResponseWriter, r *http.Request, status int) {
 // HTMLHandler returns some HTML response.
 func HTMLHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Length", strconv.Itoa(len(htmlData)))
-	w.Header().Set("Content-Type", "text/html")
+	w.Header().Add("Content-Type", "text/html")
 	fmt.Fprint(w, htmlData)
 }
 
 // XMLHandler returns some XML response.
 func XMLHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Length", strconv.Itoa(len(xmlData)))
-	w.Header().Set("Content-Type", "text/xml")
+	w.Header().Add("Content-Type", "text/xml")
 	fmt.Fprint(w, xmlData)
 }
 
